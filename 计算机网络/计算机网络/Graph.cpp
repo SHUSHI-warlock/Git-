@@ -103,6 +103,8 @@ void Graph::deleteVertex(int v)				//删点
 					delete temp;
 					break;
 				}
+				last = temp;
+				temp = temp->next;
 			}	
 			last = temp = NULL;
 		}
@@ -110,12 +112,64 @@ void Graph::deleteVertex(int v)				//删点
 		temp = current;
 		current = current->next;
 		delete temp;
-		temp = NULL;
 	}
+	temp = NULL;
+
 	//删除点
+	NodeTable[v].Name.clear();
+	NodeTable[v].first = NULL;
+	NodeTable[v].flag = 0;
 }
 
 void Graph::deleteEdge(int v1, int v2)		//删边
 {
-
+	Edge* current, *last;
+	//在v1中删除v2
+	current = NodeTable[v1].first;
+	if (current->dest == v2)
+	{
+		NodeTable[v1].first = current->next;
+		delete current;
+	}
+	else
+	{
+		last = current;
+		current = current->next;
+		while (current != NULL)
+		{
+			if (current->dest == v2)
+			{
+				last->next = current->next;
+				delete current;
+				break;
+			}
+			last = current;
+			current = current->next;
+		}
+		last = current = NULL;
+	}
+	//在v1中删除v1
+	current = NodeTable[v2].first;
+	if (current->dest == v1)
+	{
+		NodeTable[v2].first = current->next;
+		delete current;
+	}
+	else
+	{
+		last = current;
+		current = current->next;
+		while (current != NULL)
+		{
+			if (current->dest == v1)
+			{
+				last->next = current->next;
+				delete current;
+				break;
+			}
+			last = current;
+			current = current->next;
+		}
+		last = current = NULL;
+	}
 }

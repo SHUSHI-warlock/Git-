@@ -4,7 +4,7 @@
 
 #include<stdio.h>
 #include<string>
-
+using namespace std;
 const int MaxNum = 30;
 
 struct Edge
@@ -20,7 +20,7 @@ struct Vertex
 	bool flag;		//标志是否占有
 	string Name;	//路由器IP
 	Edge*first;//边链表的头指针
-	Vertex() :first(NULL) {};
+	Vertex() :first(NULL),flag(0) {};
 };
 
 class Graph
@@ -33,7 +33,7 @@ public:
 	void clear();
 	//friend ostream & operator<<(ostream& os, Graph & A);
 	//friend istream & operator>>(istream& is, Graph & A);
-	void insertVertex(string Name);		//加点
+	bool insertVertex(string Name);		//加点
 	void insertEdge(int v1, int v2, int cost);	//加边
 	void deleteVertex(int v);			//删点
 	void deleteEdge(int v1, int v2);	//删边
