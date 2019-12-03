@@ -3,21 +3,14 @@
 #define GRAPH_H
 
 #include<stdio.h>
-#include<math.h>
-#include <iostream>
-#include <algorithm>
-#include<cstring>
 #include<string>
-#include<stack>
-#include<queue>
 
-using namespace std;
 struct Edge
 {
 	int dest;//边的另一边的节点
 	int cost;//权值
 	Edge* next;
-	Edge(int num, int ways) :dest(num), next(NULL),cost(0) {};
+	Edge(int num, int cost) :dest(num), next(NULL),cost(cost) {};
 };
 
 struct Vertex
@@ -37,12 +30,10 @@ public:
 	void clear();
 	//friend ostream & operator<<(ostream& os, Graph & A);
 	//friend istream & operator>>(istream& is, Graph & A);
-	void insertVertex(int x, int y);		//加点
+	void insertVertex(string Name);		//加点
 	void insertEdge(int v1, int v2, int cost);	//加边
 private:
 	Vertex*NodeTable;//图节点表
 	int NodeNum;	 //节点个数
 };
-
-
 #endif // !GRAPH_H
