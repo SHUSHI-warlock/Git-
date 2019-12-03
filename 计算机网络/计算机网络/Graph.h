@@ -6,7 +6,7 @@
 #include<string>
 
 const int MaxNum = 30;
-
+using namespace std;
 struct Edge
 {
 	int dest;//边的另一边的节点
@@ -23,17 +23,25 @@ struct Vertex
 	Vertex() :first(NULL) {};
 };
 
+struct Route
+{
+	string dest;		//目的
+	string gateway;		//下一条
+	int cost;
+	Route(string s1, string s2) :dest(s1), gateway(s2), cost(0) {};
+};
+
 class Graph
 {
 public:
 	Graph():NodeNum(0),NodeTable(NULL){};
 	~Graph();
-	int Dijiesita(int v);		//对节点求路由表
+	void Dijkstra(int v);		//对节点求路由表
 	void Init();				//初始化，一次性建图
 	void clear();
 	//friend ostream & operator<<(ostream& os, Graph & A);
 	//friend istream & operator>>(istream& is, Graph & A);
-	void insertVertex(string Name);		//加点
+	bool insertVertex(string Name);		//加点
 	void insertEdge(int v1, int v2, int cost);	//加边
 	void deleteVertex(int v);			//删点
 	void deleteEdge(int v1, int v2);	//删边

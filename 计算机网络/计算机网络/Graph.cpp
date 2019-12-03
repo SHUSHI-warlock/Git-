@@ -10,7 +10,6 @@
 #include<stack>
 #include<queue>
 
-using namespace std;
 
 Graph::~Graph()
 {
@@ -35,7 +34,6 @@ void Graph::clear()
 	NodeTable = NULL;
 	NodeNum = 0;
 }
-
 bool Graph::insertVertex(string Name)
 {
 	if (NodeNum < MaxNum)	//Ë³ÐòÌí¼Ó
@@ -118,4 +116,10 @@ void Graph::deleteVertex(int v)				//É¾µã
 void Graph::deleteEdge(int v1, int v2)		//É¾±ß
 {
 
+}
+
+void Graph::Dijkstra(int v)
+{
+	queue<int>q;
+	node[q].
 }
