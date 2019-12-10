@@ -127,10 +127,10 @@ void Graph::deleteEdge(int v1, int v2)		//删边
 void Graph::Dijkstra(int v)
 {
 	int Inf = 0x3fffff;						//初始化最大值
-	int* vis = new int[NodeNum + 1]();		//是否访问过
-	int* dis = new int[NodeNum + 1]();		//权值
-	int* fa = new int[NodeNum + 1]();		//下一跳
-	for (int t = 1; t <= NodeNum; t++)		//先初始化
+	int* vis = new int[NodeNum ]();		//是否访问过
+	int* dis = new int[NodeNum ]();		//权值
+	int* fa = new int[NodeNum ]();		//下一跳
+	for (int t = 0; t < NodeNum; t++)		//先初始化
 		dis[t] = Inf;
 	Edge * p = NodeTable[v].first;			//取当前节点信息邻接
 	while (p != NULL)
@@ -142,7 +142,7 @@ void Graph::Dijkstra(int v)
 	for (int t = 1; t < NodeNum; t++)
 	{
 		int minn = Inf, temp;
-		for (int i = 1; i <= NodeNum; i++)
+		for (int i = 0; i < NodeNum; i++)
 		{
 			if (!vis[i] && dis[i] < minn)
 			{
@@ -162,7 +162,7 @@ void Graph::Dijkstra(int v)
 		}
 	}
 	NodeTable[v].R = new Route[NodeNum];
-	for (int i = 1; i <= NodeNum; i++)
+	for (int i = 0; i < NodeNum; i++)
 	{
 		for (int j = 0; j < 4; j++)
 			NodeTable[v].R[i].dest[j] = NodeTable[i].Name[j];
