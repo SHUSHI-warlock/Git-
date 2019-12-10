@@ -51,6 +51,9 @@ public:
 	bool deleteVertex(int name[]);					//删点
 	void deleteEdge(int v1, int v2);				//删边
 	bool deleteEdge(int v1[], int v2[]);			//删边
+	void Print(int name[]);							//输出
+	void Print();
+	void Update();                                  //更新
 	int findV(int name[]);							//给名字找点
 private:
 	Vertex*NodeTable;//图节点表
