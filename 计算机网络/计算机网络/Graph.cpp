@@ -312,3 +312,42 @@ void Graph::Dijkstra(int v)
 		}
 	}
 }
+void Graph::Print()
+{
+	int n[4];
+	for (int i = 0; i < NodeNum; i++)
+	{
+		if (NodeTable[i].flag == 0)
+			continue;
+		else
+		{
+			for (int i = 0; i < 4; i++)
+			{
+				n[i] = NodeTable[i].Name[i];
+			}
+			Print(n);
+		}
+	}
+	
+}
+void Graph::Print(int name[])
+{
+	int n = findV(name);
+	if (n == -1)
+		cout << "IP错误，无法找到的IP";
+	else
+	{
+		printf("%d.%d.%d.%d的路由表为：\n", name[0], name[1], name[2], name[3]);
+		printf("Destination\t\t\t\tGateway\t\t\t\tCost\n");
+		for (int i = 0; i < MaxNum; i++)
+			printf("%d.%d.%d.%d\t%d.%d.%d.%d\t%d\n", NodeTable[n].R->dest[0], NodeTable[n].R->dest[1], NodeTable[n].R->dest[2], NodeTable[n].R->dest[3], NodeTable[n].R->next[0], NodeTable[n].R->next[1], NodeTable[n].R->next[2], NodeTable[n].R->next[3], NodeTable[n].R->cost);
+	}
+}
+
+void Graph::Update()
+{
+	for (int i = 0; i < NodeNum; i++)
+	{
+		Dijkstra(i);
+	}
+}
