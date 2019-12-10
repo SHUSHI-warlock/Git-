@@ -11,7 +11,11 @@
 #include<queue>
 #include<fstream>
 
+<<<<<<< HEAD
 //析构函数
+=======
+
+>>>>>>> dd56904958774f3e52590c13475fb2ba1df59b16
 Graph::~Graph()
 {
 	clear();
@@ -35,6 +39,7 @@ void Graph::clear()
 	NodeTable = NULL;
 	NodeNum = 0;
 }
+<<<<<<< HEAD
 //找点
 int Graph::findV(string str)
 {
@@ -45,11 +50,17 @@ int Graph::findV(string str)
 }
 //加点
 bool Graph::insertVertex(string Name)
+=======
+bool Graph::insertVertex(int Name[])
+>>>>>>> dd56904958774f3e52590c13475fb2ba1df59b16
 {
 	if (NodeNum < MaxNum)	//顺序添加
 	{
 		NodeTable[NodeNum].flag = 1;
-		NodeTable[NodeNum].Name = Name;
+		for (int i = 0; i < 4; i++)
+		{
+			NodeTable[NodeNum].Name[i] = Name[i];
+		}
 		NodeTable[NodeNum].first = NULL;
 		NodeNum++;
 		return true;
@@ -61,7 +72,10 @@ bool Graph::insertVertex(string Name)
 			if (NodeTable[i].flag == 0)
 			{
 				NodeTable[i].flag = 1;
-				NodeTable[i].Name = Name;
+				for (int i = 0; i < 4; i++)
+				{
+					NodeTable[NodeNum].Name[i] = Name[i];
+				}
 				NodeTable[i].first = NULL;
 				return true;
 			}
@@ -247,3 +261,66 @@ void Graph::Init()
 }
 
 
+<<<<<<< HEAD
+=======
+}
+
+void Graph::Dijkstra(int v)
+{
+	int Inf = 0x3fffff;						//初始化最大值
+	int* vis = new int[NodeNum + 1]();		//是否访问过
+	int* dis = new int[NodeNum + 1]();		//权值
+	int* fa = new int[NodeNum + 1]();		//下一跳
+	for (int t = 1; t <= NodeNum; t++)		//先初始化
+		dis[t] = Inf;
+	Edge * p = NodeTable[v].first;			//取当前节点信息邻接
+	while (p != NULL)
+	{
+		dis[p->dest] = p->cost;
+		fa[p->dest] = p->dest;
+	}
+	vis[v] = 1;								//标记访问过
+	for (int t = 1; t < NodeNum; t++)
+	{
+		int minn = Inf, temp;
+		for (int i = 1; i <= NodeNum; i++)
+		{
+			if (!vis[i] && dis[i] < minn)
+			{
+				minn = dis[i];
+				temp = i;
+			}
+		}
+		vis[temp] = 1;						//标记temp访问过
+		Edge* p1 = NodeTable[temp].first;	//松弛操作
+		while (p1 != NULL)
+		{
+			if (p1->cost + dis[temp] < dis[p1->dest])
+			{
+				dis[p1->dest] = p1->cost + dis[temp];
+				fa[p1->dest] = fa[temp];	//更新下一跳
+			}
+		}
+	}
+	NodeTable[v].R = new Route[NodeNum];
+	for (int i = 1; i <= NodeNum; i++)
+	{
+		for (int j = 0; j < 4; j++)
+			NodeTable[v].R[i].dest[j] = NodeTable[i].Name[j];
+		if (i == v)
+		{
+			NodeTable[v].R[i].next[0] = 127;
+			NodeTable[v].R[i].next[1] = 0;
+			NodeTable[v].R[i].next[2] = 0;
+			NodeTable[v].R[i].next[3] = 1;
+			NodeTable[v].R[i].cost = 0;
+		}
+		else
+		{
+			for (int j = 0; j < 4; j++)
+				NodeTable[v].R[i].next[1] = NodeTable[fa[i]].Name[j];
+			NodeTable[v].R[i].cost = dis[i];
+		}
+	}
+}
+>>>>>>> dd56904958774f3e52590c13475fb2ba1df59b16
