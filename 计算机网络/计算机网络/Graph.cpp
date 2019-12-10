@@ -1,22 +1,22 @@
 #include"pch.h"
 #include"Graph.h"
 
-#include<stdio.h>
+#include<cstdio>
 #include<string>
-#include<math.h>
-#include <iostream>
+#include<cmath>
 #include <algorithm>
+#include <iostream>
 #include<cstring>
 #include<stack>
 #include<queue>
+#include<fstream>
 
-using namespace std;
-
+//析构函数
 Graph::~Graph()
 {
 	clear();
 }
-
+//清空图
 void Graph::clear()
 {
 	//释放节点和边
@@ -35,7 +35,12 @@ void Graph::clear()
 	NodeTable = NULL;
 	NodeNum = 0;
 }
+//找点
+bool findV(string str)
+{
 
+}
+//加点
 bool Graph::insertVertex(string Name)
 {
 	if (NodeNum < MaxNum)	//顺序添加
@@ -61,7 +66,7 @@ bool Graph::insertVertex(string Name)
 	}
 	return false;
 }
-
+//加边
 void Graph::insertEdge(int v1, int v2, int cost)
 {
 	Edge*current;
@@ -74,7 +79,30 @@ void Graph::insertEdge(int v1, int v2, int cost)
 	NodeTable[v2].first = new Edge(v1, cost);
 	NodeTable[v2].first->next = current;
 }
+bool Graph::insertEdge(string v1, string v2, int cost)
+{
+	int V1, V2;
+	int yes = 2;
+	for (int i = 0; i < NodeNum; i++) {
+		if (NodeTable[i].Name == v1){
+			V1 = i; yes--;
+		}
+		else if (NodeTable[i].Name == v2){
+			V2 = i; yes--;
+		}
+		if (!yes)
+			break;
+	}
+	if (!yes) {
+		insertEdge(V1, V2, cost);
+		return true;
+	}
+	else
+		cout << "不存在这两点！" << endl;
+	return false;
+}
 
+//删点
 void Graph::deleteVertex(int v)				//删点
 {
 	//删除该点和其他点的边的信息
@@ -116,11 +144,11 @@ void Graph::deleteVertex(int v)				//删点
 	temp = NULL;
 
 	//删除点
-	NodeTable[v].Name.clear();
+	//NodeTable[v].Name;
 	NodeTable[v].first = NULL;
 	NodeTable[v].flag = 0;
 }
-
+//删边
 void Graph::deleteEdge(int v1, int v2)		//删边
 {
 	Edge* current, *last;
@@ -173,3 +201,49 @@ void Graph::deleteEdge(int v1, int v2)		//删边
 		last = current = NULL;
 	}
 }
+bool Graph::deleteEdge(string v1, string v2)		//删边
+{
+	int V1, V2;
+	int yes = 2;
+	for (int i = 0; i < NodeNum; i++) {
+		if (NodeTable[i].Name == v1) {
+			V1 = i; yes--;
+		}
+		else if (NodeTable[i].Name == v2) {
+			V2 = i; yes--;
+		}
+		if (!yes)
+			break;
+	}
+	if (!yes) {
+		deleteEdge(V1, V2);
+		return true;
+	}
+	else
+		cout << "不存在这两点！" << endl;
+	return false;
+}
+//初始化
+void Graph::Init()
+{
+	ofstream os;
+	os.open("text.txt");
+	int v, e;
+	os << v << e;
+	int cost;
+	string str1, str2;
+	for (int i = 0; i < v; i++)
+	{
+		os << str1;
+		insertVertex(str1);
+	}
+	for (int i = 0; i < e; i++)
+	{
+		os << str1 << str2 << cost;
+		insertEdge(str1, str2, cost);
+	}
+	for(int i=0;i<v)
+	Dijkstra()
+}
+
+

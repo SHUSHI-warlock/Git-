@@ -1,2 +1,10 @@
+<<<<<<< HEAD
 ﻿  Graph.cpp
 g:\git仓库\计算机网络\计算机网络\graph.cpp(142): error C4700: 使用了未初始化的局部变量“temp”
+=======
+﻿  pch.cpp
+  Graph.cpp
+  计算机网络.cpp
+  正在生成代码...
+  计算机网络.vcxproj -> E:\学习\大二\计算机网络\Git-\计算机网络\Debug\计算机网络.exe
+>>>>>>> 2eb63af266d153e53ebeb916e85be2b46489506d
