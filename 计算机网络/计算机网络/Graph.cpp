@@ -2,11 +2,11 @@
 #include"Graph.h"
 
 #include<cstdio>
-#include<string>
 #include<cmath>
+#include<cstring>
 #include <algorithm>
 #include <iostream>
-#include<cstring>
+#include<string>
 #include<stack>
 #include<queue>
 #include<fstream>
@@ -36,9 +36,12 @@ void Graph::clear()
 	NodeNum = 0;
 }
 //找点
-bool findV(string str)
+int Graph::findV(string str)
 {
-
+	for (int i = 0; i < NodeNum; i++)
+		if (NodeTable[i].Name == str)
+			return i;
+	return -1;
 }
 //加点
 bool Graph::insertVertex(string Name)
@@ -79,26 +82,19 @@ void Graph::insertEdge(int v1, int v2, int cost)
 	NodeTable[v2].first = new Edge(v1, cost);
 	NodeTable[v2].first->next = current;
 }
-bool Graph::insertEdge(string v1, string v2, int cost)
+bool Graph::insertEdge(string str1, string str2, int cost)
 {
-	int V1, V2;
-	int yes = 2;
-	for (int i = 0; i < NodeNum; i++) {
-		if (NodeTable[i].Name == v1){
-			V1 = i; yes--;
-		}
-		else if (NodeTable[i].Name == v2){
-			V2 = i; yes--;
-		}
-		if (!yes)
-			break;
-	}
-	if (!yes) {
-		insertEdge(V1, V2, cost);
+	int v1, v2;
+	v1 = findV(str1);
+	v2 = findV(str2);
+	if(v1==-1)
+		cout << "不存在"<<str1<<"这点！" << endl;
+	else if(v2==-1)
+		cout << "不存在" << str2 << "这点！" << endl;
+	else {
+		insertEdge(v1, v2, cost);
 		return true;
 	}
-	else
-		cout << "不存在这两点！" << endl;
 	return false;
 }
 
@@ -144,9 +140,20 @@ void Graph::deleteVertex(int v)				//删点
 	temp = NULL;
 
 	//删除点
-	//NodeTable[v].Name;
+	NodeTable[v].Name.clear();
 	NodeTable[v].first = NULL;
 	NodeTable[v].flag = 0;
+}
+bool Graph::deleteVertex(string str)
+{
+	int v = findV(str);
+	if (v != -1){
+		deleteVertex(v);
+		return true;
+	}
+	else
+		cout << "不存在" << str << "这点！" << endl;
+	return false;
 }
 //删边
 void Graph::deleteEdge(int v1, int v2)		//删边
@@ -201,32 +208,25 @@ void Graph::deleteEdge(int v1, int v2)		//删边
 		last = current = NULL;
 	}
 }
-bool Graph::deleteEdge(string v1, string v2)		//删边
+bool Graph::deleteEdge(string str1, string str2)		//删边
 {
-	int V1, V2;
-	int yes = 2;
-	for (int i = 0; i < NodeNum; i++) {
-		if (NodeTable[i].Name == v1) {
-			V1 = i; yes--;
-		}
-		else if (NodeTable[i].Name == v2) {
-			V2 = i; yes--;
-		}
-		if (!yes)
-			break;
-	}
-	if (!yes) {
-		deleteEdge(V1, V2);
+	int v1, v2;
+	v1 = findV(str1);
+	v2 = findV(str2);
+	if (v1 == -1)
+		cout << "不存在" << str1 << "这点！" << endl;
+	else if (v2 == -1)
+		cout << "不存在" << str2 << "这点！" << endl;
+	else {
+		deleteEdge(v1, v2);
 		return true;
 	}
-	else
-		cout << "不存在这两点！" << endl;
 	return false;
 }
 //初始化
 void Graph::Init()
 {
-	ofstream os;
+	ifstream os;
 	os.open("text.txt");
 	int v, e;
 	os << v << e;
@@ -242,8 +242,8 @@ void Graph::Init()
 		os << str1 << str2 << cost;
 		insertEdge(str1, str2, cost);
 	}
-	for(int i=0;i<v)
-	Dijkstra()
+	for (int i = 0; i < NodeNum; i++)
+		Dijkstra(i);
 }
 
 

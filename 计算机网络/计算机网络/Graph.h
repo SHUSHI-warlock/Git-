@@ -45,10 +45,10 @@ public:
 	void insertEdge(int v1, int v2, int cost);	//加边
 	bool insertEdge(string v1, string v2, int cost);	//加边
 	void deleteVertex(int v);			//删点
-	void deleteVertex(string v);			//删点
+	bool deleteVertex(string v);			//删点
 	void deleteEdge(int v1, int v2);	//删边
 	bool deleteEdge(string v1, string v2);	//删边
-	bool findV(string str);			//给名字找点
+	int findV(string str);			//给名字找点
 private:
 	Vertex*NodeTable;//图节点表
 	int NodeNum;	 //节点个数
