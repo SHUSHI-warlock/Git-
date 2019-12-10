@@ -11,11 +11,7 @@
 #include<queue>
 #include<fstream>
 
-<<<<<<< HEAD
 //析构函数
-=======
-
->>>>>>> dd56904958774f3e52590c13475fb2ba1df59b16
 Graph::~Graph()
 {
 	clear();
@@ -39,26 +35,25 @@ void Graph::clear()
 	NodeTable = NULL;
 	NodeNum = 0;
 }
-<<<<<<< HEAD
 //找点
-int Graph::findV(string str)
+int Graph::findV(int name[])
 {
-	for (int i = 0; i < NodeNum; i++)
-		if (NodeTable[i].Name == str)
-			return i;
+	for (int i = 0; i < NodeNum; i++) 
+		if (NodeTable[i].flag == 1) 
+			for (int j = 0; j < 4; j++) {
+				if (NodeTable[i].Name[i] == name[i])
+					break;
+				return i;
+			}
 	return -1;
 }
 //加点
-bool Graph::insertVertex(string Name)
-=======
 bool Graph::insertVertex(int Name[])
->>>>>>> dd56904958774f3e52590c13475fb2ba1df59b16
 {
 	if (NodeNum < MaxNum)	//顺序添加
 	{
 		NodeTable[NodeNum].flag = 1;
-		for (int i = 0; i < 4; i++)
-		{
+		for (int i = 0; i < 4; i++){
 			NodeTable[NodeNum].Name[i] = Name[i];
 		}
 		NodeTable[NodeNum].first = NULL;
@@ -73,9 +68,7 @@ bool Graph::insertVertex(int Name[])
 			{
 				NodeTable[i].flag = 1;
 				for (int i = 0; i < 4; i++)
-				{
 					NodeTable[NodeNum].Name[i] = Name[i];
-				}
 				NodeTable[i].first = NULL;
 				return true;
 			}
@@ -83,6 +76,7 @@ bool Graph::insertVertex(int Name[])
 	}
 	return false;
 }
+
 //加边
 void Graph::insertEdge(int v1, int v2, int cost)
 {
@@ -96,15 +90,15 @@ void Graph::insertEdge(int v1, int v2, int cost)
 	NodeTable[v2].first = new Edge(v1, cost);
 	NodeTable[v2].first->next = current;
 }
-bool Graph::insertEdge(string str1, string str2, int cost)
+bool Graph::insertEdge(int str1[], int str2[], int cost)
 {
 	int v1, v2;
 	v1 = findV(str1);
 	v2 = findV(str2);
 	if(v1==-1)
-		cout << "不存在"<<str1<<"这点！" << endl;
+		cout << "不存在"<<str1[0]<<'.'<<str1[1]<<'.'<<str1[2]<<'.'<<str1[3]<<"这点！" << endl;
 	else if(v2==-1)
-		cout << "不存在" << str2 << "这点！" << endl;
+		cout << "不存在" << str2[0] << '.' << str2[1] << '.' << str2[2] << '.' << str2[3] << "这点！" << endl;
 	else {
 		insertEdge(v1, v2, cost);
 		return true;
@@ -154,19 +148,19 @@ void Graph::deleteVertex(int v)				//删点
 	temp = NULL;
 
 	//删除点
-	NodeTable[v].Name.clear();
+	delete[] NodeTable[v].R;
 	NodeTable[v].first = NULL;
 	NodeTable[v].flag = 0;
 }
-bool Graph::deleteVertex(string str)
+bool Graph::deleteVertex(int name[])
 {
-	int v = findV(str);
+	int v = findV(name);
 	if (v != -1){
 		deleteVertex(v);
 		return true;
 	}
 	else
-		cout << "不存在" << str << "这点！" << endl;
+		cout << "不存在" << name[0] << '.' << name[1] << '.' << name[2] << '.' << name[3] << "这点！" << endl;
 	return false;
 }
 //删边
@@ -222,15 +216,15 @@ void Graph::deleteEdge(int v1, int v2)		//删边
 		last = current = NULL;
 	}
 }
-bool Graph::deleteEdge(string str1, string str2)		//删边
+bool Graph::deleteEdge(int str1[], int str2[])		//删边
 {
 	int v1, v2;
 	v1 = findV(str1);
 	v2 = findV(str2);
 	if (v1 == -1)
-		cout << "不存在" << str1 << "这点！" << endl;
+		cout << "不存在" << str1[0] << '.' << str1[1] << '.' << str1[2] << '.' << str1[3] << "这点！" << endl;
 	else if (v2 == -1)
-		cout << "不存在" << str2 << "这点！" << endl;
+		cout << "不存在" << str1[0] << '.' << str1[1] << '.' << str1[2] << '.' << str1[3] << "这点！" << endl;
 	else {
 		deleteEdge(v1, v2);
 		return true;
@@ -243,26 +237,21 @@ void Graph::Init()
 	ifstream os;
 	os.open("text.txt");
 	int v, e;
-	os << v << e;
+	os >> v >> e;
 	int cost;
-	string str1, str2;
+	int str1[4],str2[4];
 	for (int i = 0; i < v; i++)
 	{
-		os << str1;
+		os >> str1[0]>>str1[1]>>str1[2]>>str1[3];
 		insertVertex(str1);
 	}
 	for (int i = 0; i < e; i++)
 	{
-		os << str1 << str2 << cost;
+		os >>  str1[0] >> str1[1] >> str1[2] >> str1[3] >> str2[0] >> str2[1] >> str2[2] >> str2[3] >> cost;
 		insertEdge(str1, str2, cost);
 	}
 	for (int i = 0; i < NodeNum; i++)
 		Dijkstra(i);
-}
-
-
-<<<<<<< HEAD
-=======
 }
 
 void Graph::Dijkstra(int v)
@@ -293,7 +282,7 @@ void Graph::Dijkstra(int v)
 		}
 		vis[temp] = 1;						//标记temp访问过
 		Edge* p1 = NodeTable[temp].first;	//松弛操作
-		while (p1 != NULL)
+		while(p1 != NULL)
 		{
 			if (p1->cost + dis[temp] < dis[p1->dest])
 			{
@@ -303,7 +292,7 @@ void Graph::Dijkstra(int v)
 		}
 	}
 	NodeTable[v].R = new Route[NodeNum];
-	for (int i = 1; i <= NodeNum; i++)
+	for(int i = 1; i <= NodeNum; i++)
 	{
 		for (int j = 0; j < 4; j++)
 			NodeTable[v].R[i].dest[j] = NodeTable[i].Name[j];
@@ -323,4 +312,3 @@ void Graph::Dijkstra(int v)
 		}
 	}
 }
->>>>>>> dd56904958774f3e52590c13475fb2ba1df59b16
