@@ -15,21 +15,24 @@ struct Edge
 	Edge(int num, int cost) :dest(num), next(NULL),cost(cost) {};
 };
 
+struct Route
+{
+	unsigned int dest[4];		//目的
+	//unsigned int mask[4];		//掩码
+	unsigned int next[4];		//下一条
+	//int interface;			//出口
+	int cost;					//权值
+};
+
 struct Vertex
 {
 	bool flag;		//标志是否占有
-	string Name;	//路由器IP
+	unsigned int Name[4];	//路由器IP
 	Edge*first;//边链表的头指针
+	Route*R;
 	Vertex() :first(NULL) {};
 };
 
-struct Route
-{
-	string dest;		//目的
-	string gateway;		//下一条
-	int cost;
-	Route(string s1, string s2) :dest(s1), gateway(s2), cost(0) {};
-};
 
 class Graph
 {
@@ -41,11 +44,12 @@ public:
 	void clear();
 	//friend ostream & operator<<(ostream& os, Graph & A);
 	//friend istream & operator>>(istream& is, Graph & A);
-	bool insertVertex(string Name);		//加点
+	bool insertVertex(int []);		//加点
 	void insertEdge(int v1, int v2, int cost);	//加边
 	void deleteVertex(int v);			//删点
 	void deleteEdge(int v1, int v2);	//删边
 private:
+
 	Vertex*NodeTable;//图节点表
 	int NodeNum;	 //节点个数
 };
