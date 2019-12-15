@@ -27,17 +27,16 @@ struct Route
 
 struct Vertex
 {
-	bool flag;		//标志是否占有
 	unsigned int Name[4];	//路由器IP
 	Edge*first;//边链表的头指针
 	Route* R;
-	Vertex() :first(NULL),flag(0),R(NULL) {};
+	Vertex() :first(NULL),R(NULL) {};
 };
 
 class Graph
 {
 public:
-	Graph():NodeNum(0),NodeTable(NULL){};
+	Graph() :NodeNum(0) {};
 	~Graph();
 	void Dijkstra(int v);		//对节点求路由表
 	void Init();				//初始化，一次性建图
@@ -56,7 +55,7 @@ public:
 	void Update();                                  //更新
 	int findV(int name[]);							//给名字找点
 private:
-	Vertex*NodeTable;//图节点表
+	Vertex NodeTable[MaxNum];//图节点表
 	int NodeNum;	 //节点个数
 };
 #endif // !GRAPH_H

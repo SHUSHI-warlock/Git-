@@ -10,8 +10,8 @@ int main()
 	cout << "生成路由表中..." << endl;
 	G.Init();
 	int chooes=-1;
-	
-	/*while (chooes!=0)
+	int IP[4],IP2[4],cost;
+	while (chooes!=0)
 	{
 		cout << "输入收到的链路改变信息（退出请按0）：" << endl;
 		cout << "(1)代表添加一个路由器;" << endl << "(2)代表添加一条链路;" << endl;
@@ -20,35 +20,35 @@ int main()
 		cin >> chooes;
 		switch (chooes)
 		{
-		case 1:int IP[4];
+		case 1:
 			cout << "请输入一个路由器IP地址：" << endl;
 			cin >> IP[0]>> IP[1] >> IP[2] >> IP[3];
 			//加检测
 			G.insertVertex(IP);
 			break;
-		case 2:int IP1[4],IP2[4],cost;
+		case 2:
 			cout << "请输入一个路由器IP地址：" << endl;
-			cin >> IP1[0] >> IP1[1] >> IP1[2] >> IP1[3];
+			cin >> IP[0] >> IP[1] >> IP[2] >> IP[3];
 			cout << "请输入另一个路由器IP地址：" << endl;
 			cin >> IP2[0] >> IP2[1] >> IP2[2] >> IP2[3];
 			cout << "请输入链路的长度：" << endl;
 			cin >> cost;
-			G.insertEdge(IP1, IP2, cost);
+			G.insertEdge(IP, IP2, cost);
 			G.Update();
 			break;
-		case 3:int IP[4];
+		case 3:
 			cout << "请输入要删除的路由器IP地址：" << endl;
 			cin >> IP[0] >> IP[1] >> IP[2] >> IP[3];
 			//加检测
 			G.deleteVertex(IP);
 			G.Update();
 			break;
-		case 4:int IP1[4], IP2[4];
+		case 4: 
 			cout << "请输入要删除的路由器IP地址：" << endl;
-			cin >> IP1[0] >> IP1[1] >> IP1[2] >> IP1[3];
+			cin >> IP[0] >> IP[1] >> IP[2] >> IP[3];
 			cout << "请输入另一个要删除的路由器IP地址：" << endl;
 			cin >> IP2[0] >> IP2[1] >> IP2[2] >> IP2[3];
-			G.deleteEdge(IP1, IP2);
+			G.deleteEdge(IP, IP2);
 			G.Update();
 			break;
 		case 5:int ways;
@@ -58,15 +58,14 @@ int main()
 				G.Print();
 			else
 			{
-				int IP[4];
 				cout << "请输入要查看的路由器的IP地址:";
-				cin >> IP1[0] >> IP1[1] >> IP1[2] >> IP1[3];
+				cin >> IP[0] >> IP[1] >> IP[2] >> IP[3];
 				G.Print(IP);
 			}
 			break;
 		default:cout << "即将退出" << endl;
 			break;
 		}
-	}*/
+	}
 }
 

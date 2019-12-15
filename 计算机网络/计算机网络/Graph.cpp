@@ -10,6 +10,8 @@
 #include<stack>
 #include<queue>
 #include<fstream>
+using namespace std;
+//构造函数
 
 //析构函数
 Graph::~Graph()
@@ -31,20 +33,19 @@ void Graph::clear()
 			delete Temp;
 		}
 	}
-	delete[]NodeTable;
-	NodeTable = NULL;
 	NodeNum = 0;
 }
 //找点
 int Graph::findV(int name[])
 {
 	for (int i = 0; i < NodeNum; i++) 
-		if (NodeTable[i].flag == 1) 
-			for (int j = 0; j < 4; j++) {
-				if (NodeTable[i].Name[i] == name[i])
-					break;
-				return i;
+		for (int j = 0; j < 4; j++) {
+			if (NodeTable[i].Name[j] == name[j]){
+				if (j == 3) return i;
+				else continue;
 			}
+			else break;
+		}
 	return -1;
 }
 //加点
@@ -52,7 +53,6 @@ bool Graph::insertVertex(int Name[])
 {
 	if (NodeNum < MaxNum)	//顺序添加
 	{
-		NodeTable[NodeNum].flag = 1;
 		for (int i = 0; i < 4; i++){
 			NodeTable[NodeNum].Name[i] = Name[i];
 		}
@@ -60,20 +60,8 @@ bool Graph::insertVertex(int Name[])
 		NodeNum++;
 		return true;
 	}
-	else
-	{
-		for (int i = 0; i < MaxNum; i++)
-		{
-			if (NodeTable[i].flag == 0)
-			{
-				NodeTable[i].flag = 1;
-				for (int i = 0; i < 4; i++)
-					NodeTable[NodeNum].Name[i] = Name[i];
-				NodeTable[i].first = NULL;
-				return true;
-			}
-		}
-	}
+	else 
+		cout << "节点已经满了！" << endl;
 	return false;
 }
 
@@ -150,7 +138,14 @@ void Graph::deleteVertex(int v)				//删点
 	//删除点
 	delete[] NodeTable[v].R;
 	NodeTable[v].first = NULL;
-	NodeTable[v].flag = 0;
+
+	//后面的节点前移
+	for(int i=v+1;i<NodeNum;i++){
+		NodeTable[i - 1].first = NodeTable[i - 1].first;
+		for(int j=0;j<4;j++)
+			NodeTable[i - 1].Name[j] = NodeTable[i].Name[j];
+		NodeTable[i - 1].R = NodeTable[i].R;
+	}
 }
 bool Graph::deleteVertex(int name[])
 {
@@ -257,22 +252,25 @@ void Graph::Init()
 void Graph::Dijkstra(int v)
 {
 	int Inf = 0x3fffff;						//初始化最大值
-	int* vis = new int[NodeNum + 1]();		//是否访问过
-	int* dis = new int[NodeNum + 1]();		//权值
-	int* fa = new int[NodeNum + 1]();		//下一跳
-	for (int t = 1; t <= NodeNum; t++)		//先初始化
+	int* vis = new int[NodeNum + 1];		//是否访问过
+	int* dis = new int[NodeNum + 1];		//权值
+	int* fa = new int[NodeNum + 1];		//下一跳
+	for (int t = 0; t < NodeNum; t++)		//先初始化
 		dis[t] = Inf;
+	for (int t = 0;t < NodeNum; t++)
+		vis[t] = 0;
 	Edge * p = NodeTable[v].first;			//取当前节点信息邻接
 	while (p != NULL)
 	{
 		dis[p->dest] = p->cost;
 		fa[p->dest] = p->dest;
+		p = p->next;			//之前少了
 	}
 	vis[v] = 1;								//标记访问过
 	for (int t = 1; t < NodeNum; t++)
 	{
 		int minn = Inf, temp;
-		for (int i = 1; i <= NodeNum; i++)
+		for (int i = 0; i < NodeNum; i++)
 		{
 			if (!vis[i] && dis[i] < minn)
 			{
@@ -289,10 +287,11 @@ void Graph::Dijkstra(int v)
 				dis[p1->dest] = p1->cost + dis[temp];
 				fa[p1->dest] = fa[temp];	//更新下一跳
 			}
+			p1 = p1->next;
 		}
 	}
 	NodeTable[v].R = new Route[NodeNum];
-	for(int i = 1; i <= NodeNum; i++)
+	for(int i = 0; i < NodeNum; i++)
 	{
 		for (int j = 0; j < 4; j++)
 			NodeTable[v].R[i].dest[j] = NodeTable[i].Name[j];
@@ -307,29 +306,27 @@ void Graph::Dijkstra(int v)
 		else
 		{
 			for (int j = 0; j < 4; j++)
-				NodeTable[v].R[i].next[1] = NodeTable[fa[i]].Name[j];
+				NodeTable[v].R[i].next[j] = NodeTable[fa[i]].Name[j];
 			NodeTable[v].R[i].cost = dis[i];
 		}
 	}
+	delete[] vis;
+	delete[] dis;
+	delete[] fa;
 }
 void Graph::Print()
 {
 	int n[4];
 	for (int i = 0; i < NodeNum; i++)
 	{
-		if (NodeTable[i].flag == 0)
-			continue;
-		else
+		for (int i = 0; i < 4; i++)
 		{
-			for (int i = 0; i < 4; i++)
-			{
-				n[i] = NodeTable[i].Name[i];
-			}
-			Print(n);
+			n[i] = NodeTable[i].Name[i];
 		}
+		Print(n);
 	}
-	
 }
+
 void Graph::Print(int name[])
 {
 	int n = findV(name);
@@ -337,10 +334,15 @@ void Graph::Print(int name[])
 		cout << "IP错误，无法找到的IP";
 	else
 	{
-		printf("%d.%d.%d.%d的路由表为：\n", name[0], name[1], name[2], name[3]);
-		printf("Destination\t\t\t\tGateway\t\t\t\tCost\n");
-		for (int i = 0; i < MaxNum; i++)
-			printf("%d.%d.%d.%d\t%d.%d.%d.%d\t%d\n", NodeTable[n].R->dest[0], NodeTable[n].R->dest[1], NodeTable[n].R->dest[2], NodeTable[n].R->dest[3], NodeTable[n].R->next[0], NodeTable[n].R->next[1], NodeTable[n].R->next[2], NodeTable[n].R->next[3], NodeTable[n].R->cost);
+		cout<<name[0]<<'.' <<name[1]<< '.' <<name[2]<< '.' <<name[3]<< "的路由表为：" << endl;
+		cout<<"Destination\t\t\t\tGateway\t\t\t\tCost"<<endl;
+		for (int j = 0; j < NodeNum; j++) {
+			cout << NodeTable[n].R[j].dest[0] << '.' << NodeTable[n].R[j].dest[1] << '.' << NodeTable[n].R[j].dest[2] << '.' << NodeTable[n].R[j].dest[3] << "\t\t\t\t\t";
+			cout << NodeTable[n].R[j].next[0] << '.' << NodeTable[n].R[j].next[1] << '.' << NodeTable[n].R[j].next[2] << '.' << NodeTable[n].R[j].next[3] << "\t\t\t\t";
+			cout << NodeTable[n].R[j].cost << endl;
+		}
+		
+			//printf("%d.%d.%d.%d\t%d.%d.%d.%d\t%d\n",  NodeTable[n].R->next[0], NodeTable[n].R->next[1], NodeTable[n].R->next[2], NodeTable[n].R->next[3], NodeTable[n].R->cost);
 	}
 }
 
