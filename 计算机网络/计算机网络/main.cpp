@@ -8,7 +8,7 @@ int main()
 	Graph G;
 	cout << "从文件中读取路由信息；" << endl;
 	cout << "生成路由表中..." << endl;
-	G.Init();
+	//G.Init();
 	int chooes=-1;
 	int IP[4],IP2[4],cost;
 	while (chooes!=0)

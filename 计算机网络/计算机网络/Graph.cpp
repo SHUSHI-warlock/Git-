@@ -270,7 +270,7 @@ void Graph::Dijkstra(int v)
 	vis[v] = 1;								//标记访问过
 	for (int t = 1; t < NodeNum; t++)
 	{
-		int minn = Inf, temp;
+		int minn = Inf, temp= NodeNum + 1;
 		for (int i = 0; i < NodeNum; i++)
 		{
 			if (!vis[i] && dis[i] < minn)
@@ -279,6 +279,8 @@ void Graph::Dijkstra(int v)
 				temp = i;
 			}
 		}
+		if (temp = NodeNum + 1)
+			break;
 		vis[temp] = 1;						//标记temp访问过
 		Edge* p1 = NodeTable[temp].first;	//松弛操作
 		while(p1 != NULL)
@@ -306,8 +308,9 @@ void Graph::Dijkstra(int v)
 		}
 		else
 		{
-			for (int j = 0; j < 4; j++)
-				NodeTable[v].R[i].next[j] = NodeTable[fa[i]].Name[j];
+			if (dis[i] != Inf)
+				for (int j = 0; j < 4; j++)
+					NodeTable[v].R[i].next[j] = NodeTable[fa[i]].Name[j];
 			NodeTable[v].R[i].cost = dis[i];
 		}
 	}
