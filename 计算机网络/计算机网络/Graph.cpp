@@ -2,6 +2,7 @@
 #include"Graph.h"
 
 #include<cstdio>
+#include<iomanip>
 #include<cmath>
 #include<cstring>
 #include <algorithm>
@@ -251,12 +252,12 @@ void Graph::Init()
 
 void Graph::Dijkstra(int v)
 {
-	int Inf = 0x3fffff;						//初始化最大值
 	int* vis = new int[NodeNum + 1];		//是否访问过
 	int* dis = new int[NodeNum + 1];		//权值
-	int* fa = new int[NodeNum + 1];		//下一跳
+	int* fa = new int[NodeNum + 1];			//下一跳
 	for (int t = 0; t < NodeNum; t++)		//先初始化
 		dis[t] = Inf;
+	dis[v] = 0;
 	for (int t = 0;t < NodeNum; t++)
 		vis[t] = 0;
 	Edge * p = NodeTable[v].first;			//取当前节点信息邻接
@@ -319,9 +320,9 @@ void Graph::Print()
 	int n[4];
 	for (int i = 0; i < NodeNum; i++)
 	{
-		for (int i = 0; i < 4; i++)
+		for (int j = 0; j < 4; j++)
 		{
-			n[i] = NodeTable[i].Name[i];
+			n[j] = NodeTable[i].Name[j];
 		}
 		Print(n);
 	}
@@ -331,14 +332,24 @@ void Graph::Print(int name[])
 {
 	int n = findV(name);
 	if (n == -1)
-		cout << "IP错误，无法找到的IP";
+		cout << "IP错误，无法找到的IP"<<endl;
 	else
 	{
 		cout<<name[0]<<'.' <<name[1]<< '.' <<name[2]<< '.' <<name[3]<< "的路由表为：" << endl;
 		cout<<"Destination\t\t\t\tGateway\t\t\t\tCost"<<endl;
 		for (int j = 0; j < NodeNum; j++) {
-			cout << NodeTable[n].R[j].dest[0] << '.' << NodeTable[n].R[j].dest[1] << '.' << NodeTable[n].R[j].dest[2] << '.' << NodeTable[n].R[j].dest[3] << "\t\t\t\t\t";
-			cout << NodeTable[n].R[j].next[0] << '.' << NodeTable[n].R[j].next[1] << '.' << NodeTable[n].R[j].next[2] << '.' << NodeTable[n].R[j].next[3] << "\t\t\t\t";
+			if (NodeTable[n].R[j].cost == Inf){
+				cout << "当前网络不可达！" << endl;
+			}
+			else{
+			cout << setiosflags(ios::left) << setw(3) << NodeTable[n].R[j].dest[0] << '.';
+			cout << setiosflags(ios::left) << setw(3) << NodeTable[n].R[j].dest[1] << '.';
+			cout << setiosflags(ios::left) << setw(3) << NodeTable[n].R[j].dest[2] << '.';
+			cout << setiosflags(ios::left) << setw(3) << NodeTable[n].R[j].dest[3] << "\t\t\t\t";
+			cout << setiosflags(ios::left) << setw(3) << NodeTable[n].R[j].next[0] << '.';
+			cout << setiosflags(ios::left) << setw(3) << NodeTable[n].R[j].next[1] << '.';
+			cout << setiosflags(ios::left) << setw(3) << NodeTable[n].R[j].next[2] << '.';
+			cout << setiosflags(ios::left) << setw(3) << NodeTable[n].R[j].next[3] << "\t\t\t";
 			cout << NodeTable[n].R[j].cost << endl;
 		}
 		
