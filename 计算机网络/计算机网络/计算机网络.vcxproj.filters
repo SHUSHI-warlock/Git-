@@ -37,7 +37,7 @@
     <Text Include="text.txt">
       <Filter>资源文件</Filter>
     </Text>
-    <Text Include="数据库.txt">
+    <Text Include="DB.txt">
       <Filter>资源文件</Filter>
     </Text>
   </ItemGroup>

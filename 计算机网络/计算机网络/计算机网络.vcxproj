@@ -166,7 +166,7 @@
   </ItemGroup>
   <ItemGroup>
     <Text Include="text.txt" />
-    <Text Include="数据库.txt" />
+    <Text Include="DB.txt" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

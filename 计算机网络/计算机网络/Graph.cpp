@@ -147,6 +147,7 @@ void Graph::deleteVertex(int v)				//删点
 			NodeTable[i - 1].Name[j] = NodeTable[i].Name[j];
 		NodeTable[i - 1].R = NodeTable[i].R;
 	}
+	NodeNum--;
 }
 bool Graph::deleteVertex(int name[])
 {
@@ -270,16 +271,16 @@ void Graph::Dijkstra(int v)
 	vis[v] = 1;								//标记访问过
 	for (int t = 1; t < NodeNum; t++)
 	{
-		int minn = Inf, temp= NodeNum + 1;
+		int minn = Inf, temp=MaxNum+1;
 		for (int i = 0; i < NodeNum; i++)
 		{
-			if (!vis[i] && dis[i] < minn)
+			if ((!vis[i]) && dis[i] < minn)
 			{
 				minn = dis[i];
 				temp = i;
 			}
 		}
-		if (temp = NodeNum + 1)
+		if (temp == MaxNum + 1)
 			break;
 		vis[temp] = 1;						//标记temp访问过
 		Edge* p1 = NodeTable[temp].first;	//松弛操作
@@ -373,6 +374,7 @@ void Graph::Update()
 {
 	for (int i = 0; i < NodeNum; i++)
 	{
+		delete[]NodeTable[i].R;
 		Dijkstra(i);
 	}
 }
