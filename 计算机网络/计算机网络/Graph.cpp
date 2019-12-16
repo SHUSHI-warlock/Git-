@@ -40,13 +40,15 @@ void Graph::clear()
 int Graph::findV(int name[])
 {
 	for (int i = 0; i < NodeNum; i++) 
-		for (int j = 0; j < 4; j++) {
-			if (NodeTable[i].Name[j] == name[j]){
-				if (j == 3) return i;
-				else continue;
+		if(NodeTable[i].flag)
+			for (int j = 0; j < 4; j++) {
+				if (NodeTable[i].Name[j] == name[j]) {
+					if (j == 3)
+						return i;
+					else continue;
+				}
+				else break;
 			}
-			else break;
-		}
 	return -1;
 }
 //加点
@@ -57,12 +59,26 @@ bool Graph::insertVertex(int Name[])
 		for (int i = 0; i < 4; i++){
 			NodeTable[NodeNum].Name[i] = Name[i];
 		}
+		NodeTable[NodeNum].flag = 1;
 		NodeTable[NodeNum].first = NULL;
 		NodeNum++;
 		return true;
 	}
-	else 
-		cout << "节点已经满了！" << endl;
+	else {
+		for (int i = 0; i < MaxNum; i++)
+		{
+			if(NodeTable[i].flag==0)
+			{
+				for (int i = 0; i < 4; i++) {
+					NodeTable[NodeNum].Name[i] = Name[i];
+				}
+				NodeTable[NodeNum].flag = 1;
+				NodeTable[NodeNum].first = NULL;
+				return true;
+			}
+		}
+	}
+	cout << "节点已经满了！" << endl;
 	return false;
 }
 
@@ -139,14 +155,7 @@ void Graph::deleteVertex(int v)				//删点
 	//删除点
 	delete[] NodeTable[v].R;
 	NodeTable[v].first = NULL;
-
-	//后面的节点前移
-	for(int i=v+1;i<NodeNum;i++){
-		NodeTable[i - 1].first = NodeTable[i - 1].first;
-		for(int j=0;j<4;j++)
-			NodeTable[i - 1].Name[j] = NodeTable[i].Name[j];
-		NodeTable[i - 1].R = NodeTable[i].R;
-	}
+	NodeTable[v].flag = 0;
 }
 bool Graph::deleteVertex(int name[])
 {
@@ -258,14 +267,19 @@ void Graph::Dijkstra(int v)
 	for (int t = 0; t < NodeNum; t++)		//先初始化
 		dis[t] = Inf;
 	dis[v] = 0;
-	for (int t = 0;t < NodeNum; t++)
-		vis[t] = 0;
+	for (int t = 0; t < NodeNum; t++)
+	{
+		if (NodeTable[t].flag == 0)
+			vis[t] = 1;
+		else
+			vis[t] = 0;
+	}
 	Edge * p = NodeTable[v].first;			//取当前节点信息邻接
 	while (p != NULL)
 	{
 		dis[p->dest] = p->cost;
 		fa[p->dest] = p->dest;
-		p = p->next;			//之前少了
+		p = p->next;
 	}
 	vis[v] = 1;								//标记访问过
 	for (int t = 1; t < NodeNum; t++)
@@ -279,7 +293,7 @@ void Graph::Dijkstra(int v)
 				temp = i;
 			}
 		}
-		if (temp = NodeNum + 1)
+		if (temp == NodeNum + 1)
 			break;
 		vis[temp] = 1;						//标记temp访问过
 		Edge* p1 = NodeTable[temp].first;	//松弛操作
@@ -323,6 +337,8 @@ void Graph::Print()
 	int n[4];
 	for (int i = 0; i < NodeNum; i++)
 	{
+		if (NodeTable[i].flag == 0)
+			continue;
 		for (int j = 0; j < 4; j++)
 		{
 			n[j] = NodeTable[i].Name[j];
@@ -346,6 +362,8 @@ void Graph::Print(int name[])
 		cout << "|________________________________________________________________________________________|" << endl;
 		cout << "|	Destination				Gateway				Cost	 |" << endl;
 		for (int j = 0; j < NodeNum; j++) {
+			if (NodeTable[j].flag == 0)
+				continue;
 			if (NodeTable[n].R[j].cost == Inf) {
 				cout << "|\t\t\t\t" << setiosflags(ios::left) << setw(3) << NodeTable[n].R[j].dest[0] << '.';
 				cout << setiosflags(ios::left) << setw(3) << NodeTable[n].R[j].dest[1] << '.';
@@ -373,6 +391,9 @@ void Graph::Update()
 {
 	for (int i = 0; i < NodeNum; i++)
 	{
+		if (NodeTable[i].flag == 0)
+			continue;
+		delete[]NodeTable[i].R;
 		Dijkstra(i);
 	}
 }
