@@ -335,28 +335,37 @@ void Graph::Print(int name[])
 {
 	int n = findV(name);
 	if (n == -1)
-		cout << "IP错误，无法找到的IP"<<endl;
+		cout << "IP错误，无法找到的IP" << endl;
 	else
 	{
-		cout<<name[0]<<'.' <<name[1]<< '.' <<name[2]<< '.' <<name[3]<< "的路由表为：" << endl;
-		cout<<"Destination\t\t\t\tGateway\t\t\t\tCost"<<endl;
+		cout << "|￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣|" << endl;
+		cout << "|				" << setiosflags(ios::left) << setw(3) << name[0] << '.';
+		cout << setiosflags(ios::left) << setw(3) << name[1] << '.';
+		cout << setiosflags(ios::left) << setw(3) << name[2] << '.';
+		cout << setiosflags(ios::left) << setw(3) << name[3] << "的路由表     " << "				 |" << endl;
+		cout << "|________________________________________________________________________________________|" << endl;
+		cout << "|	Destination				Gateway				Cost	 |" << endl;
 		for (int j = 0; j < NodeNum; j++) {
-			if (NodeTable[n].R[j].cost == Inf){
-				cout << "当前网络不可达！" << endl;
+			if (NodeTable[n].R[j].cost == Inf) {
+				cout << "|\t\t\t\t" << setiosflags(ios::left) << setw(3) << NodeTable[n].R[j].dest[0] << '.';
+				cout << setiosflags(ios::left) << setw(3) << NodeTable[n].R[j].dest[1] << '.';
+				cout << setiosflags(ios::left) << setw(3) << NodeTable[n].R[j].dest[2] << '.';
+				cout << setiosflags(ios::left) << setw(3) << NodeTable[n].R[j].dest[3] << "的网络不可达！\t\t\t\t |" << endl;
 			}
-			else{
-			cout << setiosflags(ios::left) << setw(3) << NodeTable[n].R[j].dest[0] << '.';
-			cout << setiosflags(ios::left) << setw(3) << NodeTable[n].R[j].dest[1] << '.';
-			cout << setiosflags(ios::left) << setw(3) << NodeTable[n].R[j].dest[2] << '.';
-			cout << setiosflags(ios::left) << setw(3) << NodeTable[n].R[j].dest[3] << "\t\t\t\t";
-			cout << setiosflags(ios::left) << setw(3) << NodeTable[n].R[j].next[0] << '.';
-			cout << setiosflags(ios::left) << setw(3) << NodeTable[n].R[j].next[1] << '.';
-			cout << setiosflags(ios::left) << setw(3) << NodeTable[n].R[j].next[2] << '.';
-			cout << setiosflags(ios::left) << setw(3) << NodeTable[n].R[j].next[3] << "\t\t\t";
-			cout << NodeTable[n].R[j].cost << endl;
-		}
-		
+			else {
+				cout << "|	" << setiosflags(ios::left) << setw(3) << NodeTable[n].R[j].dest[0] << '.';
+				cout << setiosflags(ios::left) << setw(3) << NodeTable[n].R[j].dest[1] << '.';
+				cout << setiosflags(ios::left) << setw(3) << NodeTable[n].R[j].dest[2] << '.';
+				cout << setiosflags(ios::left) << setw(3) << NodeTable[n].R[j].dest[3] << "\t\t\t\t";
+				cout << setiosflags(ios::left) << setw(3) << NodeTable[n].R[j].next[0] << '.';
+				cout << setiosflags(ios::left) << setw(3) << NodeTable[n].R[j].next[1] << '.';
+				cout << setiosflags(ios::left) << setw(3) << NodeTable[n].R[j].next[2] << '.';
+				cout << setiosflags(ios::left) << setw(3) << NodeTable[n].R[j].next[3] << "\t\t\t";
+				cout << NodeTable[n].R[j].cost << "	 |" << endl;
+			}
 			//printf("%d.%d.%d.%d\t%d.%d.%d.%d\t%d\n",  NodeTable[n].R->next[0], NodeTable[n].R->next[1], NodeTable[n].R->next[2], NodeTable[n].R->next[3], NodeTable[n].R->cost);
+		}
+		cout << "|________________________________________________________________________________________|" << endl << endl;
 	}
 }
 
