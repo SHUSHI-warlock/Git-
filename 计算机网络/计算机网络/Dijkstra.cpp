@@ -16,8 +16,10 @@ void Graph::Update()
 {
 	for (int i = 0; i < NodeNum; i++)
 	{
-		delete[]NodeTable[i].R;
-		Dijkstra(i);
+		if (NodeTable[i].flag == 1) {
+			delete[] NodeTable[i].R;
+			Dijkstra(i);
+		}
 	}
 }
 //生成路由表
@@ -95,6 +97,8 @@ void Graph::Print()
 	int n[4];
 	for (int i = 0; i < NodeNum; i++)
 	{
+		if (NodeTable[i].flag == 0)
+			continue;
 		for (int j = 0; j < 4; j++)
 		{
 			n[j] = NodeTable[i].Name[j];
@@ -118,6 +122,8 @@ void Graph::Print(int name[])
 		cout << "|________________________________________________________________________________________|" << endl;
 		cout << "|	Destination				Gateway				Cost	 |" << endl;
 		for (int j = 0; j < NodeNum; j++) {
+			if (NodeTable[j].flag == 0)
+				continue;
 			if (NodeTable[n].R[j].cost == Inf) {
 				cout << "|\t\t\t\t" << setiosflags(ios::left) << setw(3) << NodeTable[n].R[j].dest[0] << '.';
 				cout << setiosflags(ios::left) << setw(3) << NodeTable[n].R[j].dest[1] << '.';

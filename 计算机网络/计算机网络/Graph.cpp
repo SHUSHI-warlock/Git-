@@ -153,11 +153,9 @@ void Graph::deleteVertex(int v)				//É¾µã
 	temp = NULL;
 
 	//É¾³ýµã
-	delete[] NodeTable[v].R;
 	NodeTable[v].first = NULL;
-
+	delete[] NodeTable[v].R;
 	NodeTable[v].flag = 0;
-
 }
 bool Graph::deleteVertex(int name[])
 {
