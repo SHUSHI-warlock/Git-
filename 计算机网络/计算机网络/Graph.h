@@ -27,10 +27,11 @@ struct Route
 
 struct Vertex
 {
+	bool flag;
 	unsigned int Name[4];	//路由器IP
 	Edge*first;//边链表的头指针
 	Route* R;
-	Vertex() :first(NULL),R(NULL) {};
+	Vertex() :first(NULL),R(NULL),flag(0) {};
 };
 
 class Graph

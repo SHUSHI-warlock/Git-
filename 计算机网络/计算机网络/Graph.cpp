@@ -40,13 +40,15 @@ void Graph::clear()
 int Graph::findV(int name[])
 {
 	for (int i = 0; i < NodeNum; i++) 
-		for (int j = 0; j < 4; j++) {
-			if (NodeTable[i].Name[j] == name[j]){
-				if (j == 3) return i;
-				else continue;
+		if(NodeTable[i].flag)
+			for (int j = 0; j < 4; j++) {
+				if (NodeTable[i].Name[j] == name[j]) {
+					if (j == 3)
+						return i;
+					else continue;
+				}
+				else break;
 			}
-			else break;
-		}
 	return -1;
 }
 //加点
@@ -57,12 +59,26 @@ bool Graph::insertVertex(int Name[])
 		for (int i = 0; i < 4; i++){
 			NodeTable[NodeNum].Name[i] = Name[i];
 		}
+		NodeTable[NodeNum].flag = 1;
 		NodeTable[NodeNum].first = NULL;
 		NodeNum++;
 		return true;
 	}
-	else 
-		cout << "节点已经满了！" << endl;
+	else {
+		for (int i = 0; i < MaxNum; i++)
+		{
+			if(NodeTable[i].flag==0)
+			{
+				for (int i = 0; i < 4; i++) {
+					NodeTable[NodeNum].Name[i] = Name[i];
+				}
+				NodeTable[NodeNum].flag = 1;
+				NodeTable[NodeNum].first = NULL;
+				return true;
+			}
+		}
+	}
+	cout << "节点已经满了！" << endl;
 	return false;
 }
 
@@ -140,14 +156,8 @@ void Graph::deleteVertex(int v)				//删点
 	delete[] NodeTable[v].R;
 	NodeTable[v].first = NULL;
 
-	//后面的节点前移
-	for(int i=v+1;i<NodeNum;i++){
-		NodeTable[i - 1].first = NodeTable[i - 1].first;
-		for(int j=0;j<4;j++)
-			NodeTable[i - 1].Name[j] = NodeTable[i].Name[j];
-		NodeTable[i - 1].R = NodeTable[i].R;
-	}
-	NodeNum--;
+	NodeTable[v].flag = 0;
+
 }
 bool Graph::deleteVertex(int name[])
 {
@@ -250,6 +260,5 @@ void Graph::Init()
 	for (int i = 0; i < NodeNum; i++)
 		Dijkstra(i);
 }
-
 
 
