@@ -32,9 +32,15 @@
     <ClCompile Include="main.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
+    <ClCompile Include="Dijkstra.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Text Include="text.txt">
+      <Filter>资源文件</Filter>
+    </Text>
+    <Text Include="DB.txt">
       <Filter>资源文件</Filter>
     </Text>
   </ItemGroup>

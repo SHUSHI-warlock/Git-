@@ -6,6 +6,7 @@
 #include<string>
 using namespace std;
 const int MaxNum = 30;
+const int Inf = 0x3fffff;						//初始化最大值
 using namespace std;
 struct Edge
 {
@@ -22,15 +23,15 @@ struct Route
 	unsigned int next[4];		//下一跳
 	//int interface;			//出口
 	int cost;					//权值
-
 };
 
 struct Vertex
 {
+	bool flag;
 	unsigned int Name[4];	//路由器IP
 	Edge*first;//边链表的头指针
 	Route* R;
-	Vertex() :first(NULL),R(NULL) {};
+	Vertex() :first(NULL),R(NULL),flag(0) {};
 };
 
 class Graph
