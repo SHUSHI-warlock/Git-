@@ -111,27 +111,27 @@ void Graph::Print(int name[])
 {
 	int n = findV(name);
 	if (n == -1)
-		cout << "IP错误，无法找到的IP" << endl;
+		cout << "\t\tIP错误，无法找到的IP" << endl;
 	else
 	{
-		cout << "|￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣|" << endl;
-		cout << "|				" << setiosflags(ios::left) << setw(3) << name[0] << '.';
+		cout << "\t\t|￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣|" << endl;
+		cout << "\t\t|				" << setiosflags(ios::left) << setw(3) << name[0] << '.';
 		cout << setiosflags(ios::left) << setw(3) << name[1] << '.';
 		cout << setiosflags(ios::left) << setw(3) << name[2] << '.';
 		cout << setiosflags(ios::left) << setw(3) << name[3] << "的路由表     " << "				 |" << endl;
-		cout << "|________________________________________________________________________________________|" << endl;
-		cout << "|	Destination				Gateway				Cost	 |" << endl;
+		cout << "\t\t|________________________________________________________________________________________|" << endl;
+		cout << "\t\t|	Destination				Gateway				Cost	 |" << endl;
 		for (int j = 0; j < NodeNum; j++) {
 			if (NodeTable[j].flag == 0)
 				continue;
 			if (NodeTable[n].R[j].cost == Inf) {
-				cout << "|\t\t\t\t" << setiosflags(ios::left) << setw(3) << NodeTable[n].R[j].dest[0] << '.';
+				cout << "\t\t|\t\t\t\t" << setiosflags(ios::left) << setw(3) << NodeTable[n].R[j].dest[0] << '.';
 				cout << setiosflags(ios::left) << setw(3) << NodeTable[n].R[j].dest[1] << '.';
 				cout << setiosflags(ios::left) << setw(3) << NodeTable[n].R[j].dest[2] << '.';
 				cout << setiosflags(ios::left) << setw(3) << NodeTable[n].R[j].dest[3] << "的网络不可达！\t\t\t\t |" << endl;
 			}
 			else {
-				cout << "|	" << setiosflags(ios::left) << setw(3) << NodeTable[n].R[j].dest[0] << '.';
+				cout << "\t\t|	" << setiosflags(ios::left) << setw(3) << NodeTable[n].R[j].dest[0] << '.';
 				cout << setiosflags(ios::left) << setw(3) << NodeTable[n].R[j].dest[1] << '.';
 				cout << setiosflags(ios::left) << setw(3) << NodeTable[n].R[j].dest[2] << '.';
 				cout << setiosflags(ios::left) << setw(3) << NodeTable[n].R[j].dest[3] << "\t\t\t\t";
@@ -143,6 +143,6 @@ void Graph::Print(int name[])
 			}
 			//printf("%d.%d.%d.%d\t%d.%d.%d.%d\t%d\n",  NodeTable[n].R->next[0], NodeTable[n].R->next[1], NodeTable[n].R->next[2], NodeTable[n].R->next[3], NodeTable[n].R->cost);
 		}
-		cout << "|________________________________________________________________________________________|" << endl << endl;
+		cout << "\t\t|________________________________________________________________________________________|" << endl << endl;
 	}
 }

@@ -54,6 +54,10 @@ int Graph::findV(int name[])
 //加点
 bool Graph::insertVertex(int Name[])
 {
+	if (findV(Name) != -1) {
+		cout << "要添加的点已存在！" << endl;
+		return false;
+	}
 	if (NodeNum < MaxNum)	//顺序添加
 	{
 		for (int i = 0; i < 4; i++){
