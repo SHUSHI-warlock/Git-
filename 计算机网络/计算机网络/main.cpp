@@ -41,7 +41,12 @@ int main()
 			cout << "请输入一个路由器IP地址：" << endl;
 			cin >> IP[0]>> IP[1] >> IP[2] >> IP[3];
 			//加检测
-			G.insertVertex(IP);
+			if (G.insertVertex(IP)) {
+				G.Update();
+				cout << "加点成功！" << endl;
+			}
+			else
+				cout << "加点失败！" << endl;
 			break;
 		case 2:
 			cout << "请输入一端的路由器IP地址：" << endl;
@@ -98,11 +103,11 @@ int main()
 			}
 			break;
 		default:cout << "即将退出" << endl;
+			exit(1);
 			break;
 		}
 		system("pause");
 		system("cls");
-		cin.clear();
 	}
 	return 0;
 }
