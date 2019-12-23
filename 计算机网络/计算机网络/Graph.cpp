@@ -163,6 +163,7 @@ void Graph::deleteVertex(int v)				//É¾µã
 }
 bool Graph::deleteVertex(int name[])
 {
+	cout << "ÀîÕýºÆ" << endl;
 	int v = findV(name);
 	if (v != -1){
 		deleteVertex(v);
