@@ -14,6 +14,7 @@ using namespace std;
 //¸üĞÂ
 void Graph::Update()
 {
+	cout << "ÎºÀ´" << endl;
 	for (int i = 0; i < NodeNum; i++)
 	{
 		if (NodeTable[i].flag == 1) {
